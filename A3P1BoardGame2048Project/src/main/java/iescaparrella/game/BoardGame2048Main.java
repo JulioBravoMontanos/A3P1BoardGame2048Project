@@ -9,9 +9,10 @@ public class BoardGame2048Main {
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
         int menu;
+        int taula [][] = new int[TAULER][TAULER];
 
         do {
-            System.out.println("Sel.leccioni una opció del menú:");
+            System.out.println("Sel·leccioni una opció del menú:");
             System.out.println("~~~~ MENÚ ~~~~\n" +
                     "0. Sortir\n" +
                     "1. Jugar en mode fàcil\n" +
@@ -24,13 +25,20 @@ public class BoardGame2048Main {
                     break;
 
                 case 1:
-                    System.out.println("Mode fàcil sel.leccionat.");
+                    System.out.println("Mode fàcil sel·leccionat.");
                     break;
 
                 case 2:
-                    System.out.println("Mode difícil sel.leccionat.");
+                    System.out.println("Mode difícil sel·leccionat.");
                     break;
             }
         } while (menu != 0);
+    }
+    static  String mostrarMatriu(int matriu[][]){
+
+    }
+    static void inicialitzar taula (int [][] matriu){
+
+
     }
 }

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="64e13a4e-f240-40dd-b97d-ed92a54dbd56" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/A3P1BoardGame2048Project/src/main/java/iescaparrella/game/BoardGame2048Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/A3P1BoardGame2048Project/src/main/java/iescaparrella/game/BoardGame2048Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,7 +58,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1702928807747</updated>
-      <workItem from="1702997441398" duration="336000" />
+      <workItem from="1702997441398" duration="1192000" />
     </task>
     <servers />
   </component>
