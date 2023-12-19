@@ -79,4 +79,60 @@ public class BoardGame2048Main {
         } while (matriu[rnd1][rnd2] != 0);
         matriu[rnd1][rnd2] = SPAWN;
     }
+
+}
+    static void gameMovement (int [][] matriu, char wasd){
+        if (wasd=='w'){
+
+            //funcio aux moviment cap a dalt
+        }else if (wasd=='s'){
+
+            //funcio aux moviment cap a baix
+        } else if (wasd == 'a'){
+
+            //funcio aux moviment cap a  esquerra
+        } else if (wasd=='d'){
+
+            //funcio aux moviment cap a dreta
+        }
+        // funcio que generi el 2 a la matriu si hi ha com a mínim un 0 a la matriu
+
+    }
+
+    static void generate2 (int [][] matriu){
+        Random rnd=new Random();
+        boolean chivato=false;
+        for (int i = 0; i < matriu.length; i++){
+            for (int x = 0; x < matriu[0].length; x++){
+                if (matriu[i][x] == 0){
+                    chivato=true;
+                }
+            }
+        }
+
+
+    }
+
+    static void movimentDalt (int [][] matriu){
+
+
+
+    }
+
+    static boolean chekOutOfBounds (int [][] matriu, int row, int col){
+        boolean outOfBounds= false;
+
+        if (row < 0 || row > matriu.length - 1 || col < 0 || col > matriu[row].length - 1) {
+
+            outOfBounds = true;
+            return outOfBounds;
+        }
+
+        return outOfBounds;
+
+
+
+
+    }
+
 }
