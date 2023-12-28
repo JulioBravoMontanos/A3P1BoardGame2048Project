@@ -3,6 +3,13 @@ package iescaparrella.game;
 import java.util.Scanner;
 import java.util.Random;
 
+/*
+ *      Autors:
+ *
+ *       Júlia Carulla
+ *       Julio Bravo
+ *
+ */
 
 public class BoardGame2048Main {
 
@@ -40,9 +47,9 @@ public class BoardGame2048Main {
                         System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
                         wasd = keyboard.next().toLowerCase().charAt(0);
                         BoardGame2048Main.gameMovement(taula, wasd);
-                       continueishon = BoardGame2048Main.continueishon(taula);
+                        continueishon = BoardGame2048Main.continueishon(taula);
 
-                    } while (continueishon ||  wasd != 'q');
+                    } while (continueishon || wasd != 'q');
                     break;
 
                 case 2:
@@ -66,7 +73,7 @@ public class BoardGame2048Main {
             }
             str += "\n";
         }
-        str += " --- --- --- ---";
+        str += " --- --- --- --- ";
         return str;
     }
 
@@ -82,18 +89,18 @@ public class BoardGame2048Main {
         }
 
         //Afegir primer SPAWN en una cel·la random
-        matriu[rnd.nextInt(4)][rnd.nextInt(4)] = SPAWN;
+        matriu[rnd.nextInt(TAULER)][rnd.nextInt(TAULER)] = SPAWN;
 
-        //Control per evitar que el segon SPAWN a la mateixa cel·la que abans
+        //Control per evitar que el segon SPAWN aparegui a la mateixa cel·la que abans
         do {
-            rnd1 = rnd.nextInt(4);
-            rnd2 = rnd.nextInt(4);
+            rnd1 = rnd.nextInt(TAULER);
+            rnd2 = rnd.nextInt(TAULER);
         } while (matriu[rnd1][rnd2] != 0);
         matriu[rnd1][rnd2] = SPAWN;
     }
 
     static void gameMovement(int[][] matriu, char wasd) {
-        int[][] taulaTemp ={{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+        int[][] taulaTemp = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
         if (wasd == 'w') {
 
@@ -108,26 +115,23 @@ public class BoardGame2048Main {
                                 taulaTemp[i - 1][x] = matriu[i][x];
                             }
                             matriu[i][x] = 0;
-                        }
+                        } else taulaTemp[i][x] = matriu[i][x];
                     }
                 }
             }
-            BoardGame2048Main.actualitzador(matriu, taulaTemp);
 
-            //funcio aux moviment cap a dalt
         } else if (wasd == 's') {
 
-            //funcio aux moviment cap a baix
         } else if (wasd == 'a') {
 
-            //funcio aux moviment cap a  esquerra
         } else if (wasd == 'd') {
         }
+        BoardGame2048Main.actualitzador(matriu, taulaTemp);
     }
 
     static boolean continueishon(int[][] matriu) {
         Random rnd = new Random();
-        int rnd1 = 0, rnd2 = 0;
+        int rnd1, rnd2;
         boolean continuar = false;
 
         for (int i = 0; i < matriu.length; i++) {
@@ -136,16 +140,17 @@ public class BoardGame2048Main {
 
                 if (matriu[i][x] == 0) {
                     continuar = true;
-                    matriu[rnd1][rnd2] = SPAWN;
-                } else if (matriu[i][x] == 2048) {
+
+                } else if (matriu[i][x] == GUANYAR) {
                     continuar = false;
                 }
             }
         }
-        if (continuar){
+
+        if (continuar) {
             do {
-                rnd1 = rnd.nextInt(4);
-                rnd2 = rnd.nextInt(4);
+                rnd1 = rnd.nextInt(TAULER);
+                rnd2 = rnd.nextInt(TAULER);
             } while (matriu[rnd1][rnd2] != 0);
             matriu[rnd1][rnd2] = SPAWN;
         }
@@ -153,25 +158,16 @@ public class BoardGame2048Main {
     }
 
     static boolean chekOutOfBounds(int[][] matriu, int row, int col) {
-        boolean outOfBounds = false;
-
-        if (row < 0 || row > matriu.length - 1 || col < 0 || col > matriu[row].length - 1) {
-
-            outOfBounds = true;
-            return outOfBounds;
-        }
-        return outOfBounds;
+        return row < 0 || row > matriu.length - 1 || col < 0 || col > matriu[row].length - 1;
     }
 
-    static void actualitzador (int[][] taula, int [][] taulaTemp) {
+    static void actualitzador(int[][] taula, int[][] taulaTemp) {
         for (int i = 0; i < taulaTemp.length; i++) {
             for (int x = 0; x < taulaTemp[i].length; x++) {
                 taula[i][x] = taulaTemp[i][x];
             }
         }
     }
-
-
 }
 
 
