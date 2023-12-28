@@ -47,6 +47,7 @@ public class BoardGame2048Main {
         String str = "";
 
         for (int row = 0; row < matriu.length; row++) {
+            str+= " --- --- --- --- \n";
             str += "| ";
             for (int col = 0; col < matriu[row].length; col++) {
                 if (matriu[row][col] == 0) str += "\t| ";
@@ -54,6 +55,8 @@ public class BoardGame2048Main {
             }
             str += "\n";
         }
+        str+= " --- --- --- --- ";
+
         return str;
     }
 
