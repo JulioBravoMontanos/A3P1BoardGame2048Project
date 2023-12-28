@@ -96,7 +96,7 @@ public class BoardGame2048Main {
     }
 
     static void gameMovement(int[][] matriu, char wasd) {
-        int[][] taulaReal = new int[TAULER][TAULER];
+        int[][] taulaTemp ={{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
 
         if (wasd == 'w') {
 
@@ -106,15 +106,16 @@ public class BoardGame2048Main {
                         if (!chekOutOfBounds(matriu, (i - 1), (x))) {
 
                             if (matriu[i - 1][x] == matriu[i][x]) {
-                                taulaReal[i - 1][x] = matriu[i][x] * 2;
+                                taulaTemp[i - 1][x] = matriu[i][x] * 2;
                             } else {
-                                taulaReal[i - 1][x] = matriu[i][x];
+                                taulaTemp[i - 1][x] = matriu[i][x];
                             }
                             matriu[i][x] = 0;
                         }
                     }
                 }
             }
+            BoardGame2048Main.actualitzador(matriu, taulaTemp);
 
             //funcio aux moviment cap a dalt
         } else if (wasd == 's') {
@@ -131,9 +132,9 @@ public class BoardGame2048Main {
                         if (!chekOutOfBounds(matriu, i, (x - 1))) {
 
                             if (matriu[i][x - 1] == matriu[i][x]) {
-                                taulaReal[i][x - 1] = matriu[i][x] * 2;
+                                taulaTemp[i][x - 1] = matriu[i][x] * 2;
                             } else {
-                                taulaReal[i][x - 1] = matriu[i][x];
+                                taulaTemp[i][x - 1] = matriu[i][x];
                             }
                             matriu[i][x] = 0;
                         }
@@ -178,10 +179,10 @@ public class BoardGame2048Main {
         return outOfBounds;
     }
 
-    static void resetejador(int[][] taulaTemp) {
+    static void actualitzador (int[][] taula, int [][] taulaTemp) {
         for (int i = 0; i < taulaTemp.length; i++) {
             for (int x = 0; x < taulaTemp[i].length; x++) {
-                taulaTemp[i][x] = 0;
+                taula[i][x] = taulaTemp[i][x];
             }
         }
     }
