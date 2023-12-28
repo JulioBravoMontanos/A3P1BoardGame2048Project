@@ -47,9 +47,9 @@ public class BoardGame2048Main {
                         System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
                         wasd = keyboard.next().toLowerCase().charAt(0);
                         BoardGame2048Main.gameMovement(taula, wasd);
-                        continueishon = BoardGame2048Main.continueishon(taula);
+                        continueishon = BoardGame2048Main.continueishon(taula, wasd);
 
-                    } while (continueishon || wasd != 'q');
+                    } while (continueishon);
                     break;
 
                 case 2:
@@ -69,7 +69,7 @@ public class BoardGame2048Main {
             str += "| ";
             for (int col = 0; col < matriu[row].length; col++) {
                 if (matriu[row][col] == 0) str += "\t| ";
-                else str += matriu[row][col] + " |";
+                else str += matriu[row][col] + " | ";
             }
             str += "\n";
         }
@@ -109,12 +109,10 @@ public class BoardGame2048Main {
                     if (matriu[i][x] != 0) {
                         if (!chekOutOfBounds(matriu, (i - 1), (x))) {
 
-                            if (matriu[i - 1][x] == matriu[i][x]) {
-                                taulaTemp[i - 1][x] = matriu[i][x] * 2;
-                            } else {
-                                taulaTemp[i - 1][x] = matriu[i][x];
-                            }
-                            matriu[i][x] = 0;
+                            if (matriu[i - 1][x] == matriu[i][x]) taulaTemp[i - 1][x] = matriu[i][x] * 2;
+                            else if (taulaTemp[i - 1][x] == 0) taulaTemp[i - 1][x] = matriu[i][x];
+                            else taulaTemp[i][x] = matriu[i][x];
+
                         } else taulaTemp[i][x] = matriu[i][x];
                     }
                 }
@@ -125,24 +123,24 @@ public class BoardGame2048Main {
         } else if (wasd == 'a') {
 
         } else if (wasd == 'd') {
+
         }
         BoardGame2048Main.actualitzador(matriu, taulaTemp);
     }
 
-    static boolean continueishon(int[][] matriu) {
+    static boolean continueishon(int[][] matriu, char wasd) {
         Random rnd = new Random();
         int rnd1, rnd2;
         boolean continuar = false;
 
         for (int i = 0; i < matriu.length; i++) {
-
             for (int x = 0; x < matriu[0].length; x++) {
 
                 if (matriu[i][x] == 0) {
                     continuar = true;
 
                 } else if (matriu[i][x] == GUANYAR) {
-                    continuar = false;
+                    return false;
                 }
             }
         }
@@ -154,6 +152,8 @@ public class BoardGame2048Main {
             } while (matriu[rnd1][rnd2] != 0);
             matriu[rnd1][rnd2] = SPAWN;
         }
+
+        if (wasd == 'q') return false;
         return continuar;
     }
 
