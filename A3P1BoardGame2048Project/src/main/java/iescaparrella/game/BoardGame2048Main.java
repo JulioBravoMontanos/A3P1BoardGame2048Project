@@ -33,19 +33,16 @@ public class BoardGame2048Main {
                 case 1:
                     System.out.println("Mode fàcil sel·leccionat.");
                     inicialitzarTaula(taula);
-                    System.out.printf(mostrarMatriu(taula));
-                    System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
 
                     do {
 
-
-                        wasd = keyboard.next().toLowerCase().charAt(0);
-                        BoardGame2048Main.gameMovement(taula, wasd);
                         System.out.printf(mostrarMatriu(taula));
                         System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
-                        continueishon = BoardGame2048Main.continueishon(taula);
+                        wasd = keyboard.next().toLowerCase().charAt(0);
+                        BoardGame2048Main.gameMovement(taula, wasd);
+                       continueishon = BoardGame2048Main.continueishon(taula);
 
-                    } while (continueishon || wasd == 'q');
+                    } while (continueishon ||  wasd != 'q');
                     break;
 
                 case 2:
@@ -125,22 +122,6 @@ public class BoardGame2048Main {
 
             //funcio aux moviment cap a  esquerra
         } else if (wasd == 'd') {
-
-            for (int i = 0; i < matriu.length; i++) {
-                for (int x = 0; x < matriu[i].length; x++) {
-                    if (matriu[i][x] != 0) {
-                        if (!chekOutOfBounds(matriu, i, (x - 1))) {
-
-                            if (matriu[i][x - 1] == matriu[i][x]) {
-                                taulaTemp[i][x - 1] = matriu[i][x] * 2;
-                            } else {
-                                taulaTemp[i][x - 1] = matriu[i][x];
-                            }
-                            matriu[i][x] = 0;
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -155,15 +136,18 @@ public class BoardGame2048Main {
 
                 if (matriu[i][x] == 0) {
                     continuar = true;
-                    do {
-                        rnd1 = rnd.nextInt(4);
-                        rnd2 = rnd.nextInt(4);
-                    } while (matriu[rnd1][rnd2] != 0);
                     matriu[rnd1][rnd2] = SPAWN;
                 } else if (matriu[i][x] == 2048) {
                     continuar = false;
                 }
             }
+        }
+        if (continuar){
+            do {
+                rnd1 = rnd.nextInt(4);
+                rnd2 = rnd.nextInt(4);
+            } while (matriu[rnd1][rnd2] != 0);
+            matriu[rnd1][rnd2] = SPAWN;
         }
         return continuar;
     }
