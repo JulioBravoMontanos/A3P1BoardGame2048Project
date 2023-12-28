@@ -14,9 +14,11 @@ public class BoardGame2048Main {
         Scanner keyboard = new Scanner(System.in);
         int menu;
         int taula[][] = new int[TAULER][TAULER];
+        boolean continueishon;
+        char wasd;
 
         do {
-            System.out.println("Sel·leccioni una opció del menú:");
+            System.out.println("\nSel·leccioni una opció del menú:");
             System.out.println("~~~~ MENÚ ~~~~\n" +
                     "0. Sortir\n" +
                     "1. Jugar en mode fàcil\n" +
@@ -32,6 +34,18 @@ public class BoardGame2048Main {
                     System.out.println("Mode fàcil sel·leccionat.");
                     inicialitzarTaula(taula);
                     System.out.printf(mostrarMatriu(taula));
+                    System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
+
+                    do {
+
+
+                        wasd = keyboard.next().toLowerCase().charAt(0);
+                        BoardGame2048Main.gameMovement(taula, wasd);
+                        System.out.printf(mostrarMatriu(taula));
+                        System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
+                        continueishon = BoardGame2048Main.continueishon(taula);
+
+                    } while (continueishon || wasd == 'q');
                     break;
 
                 case 2:
@@ -47,7 +61,7 @@ public class BoardGame2048Main {
         String str = "";
 
         for (int row = 0; row < matriu.length; row++) {
-            str+= " --- --- --- --- \n";
+            str += " --- --- --- --- \n";
             str += "| ";
             for (int col = 0; col < matriu[row].length; col++) {
                 if (matriu[row][col] == 0) str += "\t| ";
@@ -55,8 +69,7 @@ public class BoardGame2048Main {
             }
             str += "\n";
         }
-        str+= " --- --- --- --- ";
-
+        str += " --- --- --- ---";
         return str;
     }
 
@@ -83,7 +96,25 @@ public class BoardGame2048Main {
     }
 
     static void gameMovement(int[][] matriu, char wasd) {
+        int[][] taulaReal = new int[TAULER][TAULER];
+
         if (wasd == 'w') {
+
+            for (int i = 0; i < matriu.length; i++) {
+                for (int x = 0; x < matriu[i].length; x++) {
+                    if (matriu[i][x] != 0) {
+                        if (!chekOutOfBounds(matriu, (i - 1), (x))) {
+
+                            if (matriu[i - 1][x] == matriu[i][x]) {
+                                taulaReal[i - 1][x] = matriu[i][x] * 2;
+                            } else {
+                                taulaReal[i - 1][x] = matriu[i][x];
+                            }
+                            matriu[i][x] = 0;
+                        }
+                    }
+                }
+            }
 
             //funcio aux moviment cap a dalt
         } else if (wasd == 's') {
@@ -94,24 +125,46 @@ public class BoardGame2048Main {
             //funcio aux moviment cap a  esquerra
         } else if (wasd == 'd') {
 
-            //funcio aux moviment cap a dreta
-        }
-        // funcio que generi el 2 a la matriu si hi ha com a mínim un 0 a la matriu
-    }
+            for (int i = 0; i < matriu.length; i++) {
+                for (int x = 0; x < matriu[i].length; x++) {
+                    if (matriu[i][x] != 0) {
+                        if (!chekOutOfBounds(matriu, i, (x - 1))) {
 
-    static void generate2(int[][] matriu) {
-        Random rnd = new Random();
-        boolean chivato = false;
-        for (int i = 0; i < matriu.length; i++) {
-            for (int x = 0; x < matriu[0].length; x++) {
-                if (matriu[i][x] == 0) {
-                    chivato = true;
+                            if (matriu[i][x - 1] == matriu[i][x]) {
+                                taulaReal[i][x - 1] = matriu[i][x] * 2;
+                            } else {
+                                taulaReal[i][x - 1] = matriu[i][x];
+                            }
+                            matriu[i][x] = 0;
+                        }
+                    }
                 }
             }
         }
     }
 
-    static void movimentDalt(int[][] matriu) {
+    static boolean continueishon(int[][] matriu) {
+        Random rnd = new Random();
+        int rnd1 = 0, rnd2 = 0;
+        boolean continuar = false;
+
+        for (int i = 0; i < matriu.length; i++) {
+
+            for (int x = 0; x < matriu[0].length; x++) {
+
+                if (matriu[i][x] == 0) {
+                    continuar = true;
+                    do {
+                        rnd1 = rnd.nextInt(4);
+                        rnd2 = rnd.nextInt(4);
+                    } while (matriu[rnd1][rnd2] != 0);
+                    matriu[rnd1][rnd2] = SPAWN;
+                } else if (matriu[i][x] == 2048) {
+                    continuar = false;
+                }
+            }
+        }
+        return continuar;
     }
 
     static boolean chekOutOfBounds(int[][] matriu, int row, int col) {
@@ -124,7 +177,18 @@ public class BoardGame2048Main {
         }
         return outOfBounds;
     }
+
+    static void resetejador(int[][] taulaTemp) {
+        for (int i = 0; i < taulaTemp.length; i++) {
+            for (int x = 0; x < taulaTemp[i].length; x++) {
+                taulaTemp[i][x] = 0;
+            }
+        }
+    }
+
+
 }
+
 
 
 
