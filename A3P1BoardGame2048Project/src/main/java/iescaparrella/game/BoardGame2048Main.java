@@ -8,7 +8,6 @@ import java.util.Random;
  *
  *       Júlia Carulla
  *       Julio Bravo
- *
  */
 
 public class BoardGame2048Main {
@@ -21,15 +20,12 @@ public class BoardGame2048Main {
         Scanner keyboard = new Scanner(System.in);
         int menu;
         int taula[][] = new int[TAULER][TAULER];
-        boolean continueishon;
-        char wasd;
+        boolean continuar;
+        char moviment;
 
         do {
-            System.out.println("\nSel·leccioni una opció del menú:");
-            System.out.println("~~~~ MENÚ ~~~~\n" +
-                    "0. Sortir\n" +
-                    "1. Jugar en mode fàcil\n" +
-                    "2. Jugar en mode difíıcil\n");
+            System.out.println("\nSel·lecciona una opció del menú:");
+            System.out.println("~~~~ MENÚ ~~~~\n0. Sortir\n1. Jugar en mode fàcil\n2. Jugar en mode difíıcil\n");
             menu = keyboard.nextInt();
 
             switch (menu) {
@@ -45,11 +41,11 @@ public class BoardGame2048Main {
 
                         System.out.printf(mostrarMatriu(taula));
                         System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
-                        wasd = keyboard.next().toLowerCase().charAt(0);
-                        continueishon = BoardGame2048Main.continueishon(taula, wasd);
-                        BoardGame2048Main.gameMovement(taula, wasd, continueishon);
+                        moviment = keyboard.next().toLowerCase().charAt(0);
+                        continuar = BoardGame2048Main.fiPartida(taula, moviment);
+                        BoardGame2048Main.gameMovementEZ(taula, moviment, continuar);
 
-                    } while (continueishon);
+                    } while (continuar);
                     System.out.println("S'ha acabat el joc!");
                     break;
 
@@ -82,14 +78,12 @@ public class BoardGame2048Main {
         Random rnd = new Random();
         int rnd1, rnd2;
 
-        //Omplir la taula de 0
         for (int i = 0; i < matriu.length; i++) {
             for (int x = 0; x < matriu[0].length; x++) {
                 matriu[i][x] = 0;
             }
         }
 
-        //Afegir primer SPAWN en una cel·la random
         matriu[rnd.nextInt(TAULER)][rnd.nextInt(TAULER)] = SPAWN;
 
         //Control per evitar que el segon SPAWN aparegui a la mateixa cel·la que abans
@@ -100,20 +94,20 @@ public class BoardGame2048Main {
         matriu[rnd1][rnd2] = SPAWN;
     }
 
-    static void gameMovement(int[][] matriu, char wasd, boolean continuar) {
+    static void gameMovementEZ(int[][] matriu, char wasd, boolean continuar) {
         int rnd1, rnd2;
         Random rnd = new Random();
 
         if (wasd == 'w') {
-
             for (int i = 0; i < matriu.length; i++) {
                 for (int x = 0; x < matriu[i].length; x++) {
                     if (matriu[i][x] != 0) {
-                        if (!chekOutOfBounds(matriu, (i - 1), (x))) {
+                        if (checkOutOfBounds(matriu, (i - 1), (x))) {
 
                             if (matriu[i - 1][x] == matriu[i][x]) {
                                 matriu[i - 1][x] = matriu[i][x] * 2;
                                 matriu[i][x] = 0;
+
                             } else if (matriu[i - 1][x] == 0) {
                                 matriu[i - 1][x] = matriu[i][x];
                                 matriu[i][x] = 0;
@@ -122,13 +116,11 @@ public class BoardGame2048Main {
                     }
                 }
             }
-
         } else if (wasd == 's') {
-
             for (int i = matriu.length - 1; i >= 0; i--) {
                 for (int x = 0; x < matriu[0].length; x++) {
                     if (matriu[i][x] != 0) {
-                        if (!chekOutOfBounds(matriu, (i + 1), (x))) {
+                        if (checkOutOfBounds(matriu, (i + 1), (x))) {
 
                             if (matriu[i + 1][x] == matriu[i][x]) {
                                 matriu[i + 1][x] = matriu[i][x] * 2;
@@ -142,17 +134,16 @@ public class BoardGame2048Main {
                     }
                 }
             }
-
         } else if (wasd == 'a') {
-
             for (int i = matriu.length - 1; i >= 0; i--) {
-                for (int x = matriu.length -1; x >= 0; x--) {
+                for (int x = 0; x < matriu.length; x++) {
                     if (matriu[i][x] != 0) {
-                        if (!chekOutOfBounds(matriu, (i), (x - 1))) {
+                        if (checkOutOfBounds(matriu, (i), (x - 1))) {
 
                             if (matriu[i][x - 1] == matriu[i][x]) {
                                 matriu[i][x - 1] = matriu[i][x] * 2;
                                 matriu[i][x] = 0;
+
                             } else if (matriu[i][x - 1] == 0) {
                                 matriu[i][x - 1] = matriu[i][x];
                                 matriu[i][x] = 0;
@@ -161,17 +152,16 @@ public class BoardGame2048Main {
                     }
                 }
             }
-
         } else if (wasd == 'd') {
-
             for (int i = 0; i < matriu.length; i++) {
-                for (int x = 0; x < matriu[0].length; x++) {
+                for (int x = matriu.length - 1; x >= 0; x--) {
                     if (matriu[i][x] != 0) {
-                        if (!chekOutOfBounds(matriu, (i), (x + 1))) {
+                        if (checkOutOfBounds(matriu, (i), (x + 1))) {
 
                             if (matriu[i][x + 1] == matriu[i][x]) {
                                 matriu[i][x + 1] = matriu[i][x] * 2;
                                 matriu[i][x] = 0;
+
                             } else if (matriu[i][x + 1] == 0) {
                                 matriu[i][x + 1] = matriu[i][x];
                                 matriu[i][x] = 0;
@@ -190,7 +180,7 @@ public class BoardGame2048Main {
         }
     }
 
-    static boolean continueishon(int[][] matriu, char wasd) {
+    static boolean fiPartida(int[][] matriu, char wasd) {
         boolean continuar = false;
 
         for (int i = 0; i < matriu.length; i++) {
@@ -204,15 +194,13 @@ public class BoardGame2048Main {
                 }
             }
         }
-
         if (wasd == 'q') return false;
         return continuar;
     }
 
-    static boolean chekOutOfBounds(int[][] matriu, int row, int col) {
-        return row < 0 || row > matriu.length - 1 || col < 0 || col > matriu[row].length - 1;
+    static boolean checkOutOfBounds(int[][] matriu, int row, int col) {
+        return row >= 0 && row <= matriu.length - 1 && col >= 0 && col <= matriu[row].length - 1;
     }
-
 }
 
 
