@@ -46,10 +46,11 @@ public class BoardGame2048Main {
                         System.out.printf(mostrarMatriu(taula));
                         System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
                         wasd = keyboard.next().toLowerCase().charAt(0);
-                        BoardGame2048Main.gameMovement(taula, wasd);
                         continueishon = BoardGame2048Main.continueishon(taula, wasd);
+                        BoardGame2048Main.gameMovement(taula, wasd, continueishon);
 
                     } while (continueishon);
+                    System.out.println("S'ha acabat el joc!");
                     break;
 
                 case 2:
@@ -99,8 +100,10 @@ public class BoardGame2048Main {
         matriu[rnd1][rnd2] = SPAWN;
     }
 
-    static void gameMovement(int[][] matriu, char wasd) {
+    static void gameMovement(int[][] matriu, char wasd, boolean continuar) {
         int[][] taulaTemp = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+        int rnd1, rnd2;
+        Random rnd = new Random();
 
         if (wasd == 'w') {
 
@@ -120,17 +123,65 @@ public class BoardGame2048Main {
 
         } else if (wasd == 's') {
 
-        } else if (wasd == 'a') {
+            for (int i = matriu.length - 1; i >= 0; i--) {
+                for (int x = matriu.length - 1; x >= 0; x--) {
+                    if (matriu[i][x] != 0) {
+                        if (!chekOutOfBounds(matriu, (i + 1), (x))) {
+
+                            if (matriu[i + 1][x] == matriu[i][x]) taulaTemp[i + 1][x] = matriu[i][x] * 2;
+                            else if (taulaTemp[i + 1][x] == 0) taulaTemp[i + 1][x] = matriu[i][x];
+                            else taulaTemp[i][x] = matriu[i][x];
+
+                        } else taulaTemp[i][x] = matriu[i][x];
+                    }
+                }
+            }
+
+        } else if (wasd == 'a') //fallitos lleus
+        {
+
+            for (int i = matriu.length - 1; i >= 0; i--) {
+                for (int x = 0; x < matriu.length; x++) {
+                    if (matriu[i][x] != 0) {
+                        if (!chekOutOfBounds(matriu, (i), (x - 1))) {
+
+                            if (matriu[i][x - 1] == matriu[i][x]) taulaTemp[i][x - 1] = matriu[i][x] * 2;
+                            else if (taulaTemp[i][x - 1] == 0) taulaTemp[i][x - 1] = matriu[i][x];
+                            else taulaTemp[i][x] = matriu[i][x];
+
+                        } else taulaTemp[i][x] = matriu[i][x];
+                    }
+                }
+            }
 
         } else if (wasd == 'd') {
 
+            for (int i = 0; i < matriu.length; i++) {
+                for (int x = matriu.length - 1; x >= 0; x--) {
+                    if (matriu[i][x] != 0) {
+                        if (!chekOutOfBounds(matriu, (i), (x + 1))) {
+
+                            if (matriu[i][x + 1] == matriu[i][x]) taulaTemp[i][x + 1] = matriu[i][x] * 2;
+                            else if (taulaTemp[i][x + 1] == 0) taulaTemp[i][x + 1] = matriu[i][x];
+                            else taulaTemp[i][x] = matriu[i][x];
+
+                        } else taulaTemp[i][x] = matriu[i][x];
+                    }
+                }
+            }
+
+        }
+        if (continuar) {
+            do {
+                rnd1 = rnd.nextInt(TAULER);
+                rnd2 = rnd.nextInt(TAULER);
+            } while (taulaTemp[rnd1][rnd2] != 0);
+            taulaTemp[rnd1][rnd2] = SPAWN;
         }
         BoardGame2048Main.actualitzador(matriu, taulaTemp);
     }
 
     static boolean continueishon(int[][] matriu, char wasd) {
-        Random rnd = new Random();
-        int rnd1, rnd2;
         boolean continuar = false;
 
         for (int i = 0; i < matriu.length; i++) {
@@ -143,14 +194,6 @@ public class BoardGame2048Main {
                     return false;
                 }
             }
-        }
-
-        if (continuar) {
-            do {
-                rnd1 = rnd.nextInt(TAULER);
-                rnd2 = rnd.nextInt(TAULER);
-            } while (matriu[rnd1][rnd2] != 0);
-            matriu[rnd1][rnd2] = SPAWN;
         }
 
         if (wasd == 'q') return false;
