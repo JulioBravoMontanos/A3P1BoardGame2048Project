@@ -52,7 +52,17 @@ public class BoardGame2048Main {
                 case 2:
                     System.out.println("Mode difícil sel·leccionat.");
                     inicialitzarTaula(taula);
-                    System.out.printf(mostrarMatriu(taula));
+
+                    do {
+
+                        System.out.printf(mostrarMatriu(taula));
+                        System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
+                        moviment = keyboard.next().toLowerCase().charAt(0);
+                        continuar = BoardGame2048Main.fiPartida(taula, moviment);
+
+                    } while (continuar);
+                    System.out.println("S'ha acabat el joc!");
+
                     break;
             }
         } while (menu != 0);
@@ -115,6 +125,7 @@ public class BoardGame2048Main {
                         }
                     }
                 }
+
             }
         } else if (wasd == 's') {
             for (int i = matriu.length - 1; i >= 0; i--) {
