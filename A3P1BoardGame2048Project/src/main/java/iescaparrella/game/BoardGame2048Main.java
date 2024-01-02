@@ -107,32 +107,38 @@ public class BoardGame2048Main {
 
         if (wasd == 'w') {
 
-            for (int i = 0; i < matriu.length; i++) {
+            for (int i = matriu.length-1; i >=0; i--) {
                 for (int x = 0; x < matriu[i].length; x++) {
                     if (matriu[i][x] != 0) {
                         if (!chekOutOfBounds(matriu, (i - 1), (x))) {
 
-                            if (matriu[i - 1][x] == matriu[i][x]) taulaTemp[i - 1][x] = matriu[i][x] * 2;
-                            else if (taulaTemp[i - 1][x] == 0) taulaTemp[i - 1][x] = matriu[i][x];
-                            else taulaTemp[i][x] = matriu[i][x];
-
-                        } else taulaTemp[i][x] = matriu[i][x];
+                            if (matriu[i - 1][x] == matriu[i][x]) {
+                                matriu[i - 1][x] = matriu[i][x] * 2;
+                                matriu[i][x] = 0;
+                            } else if (matriu[i - 1][x] == 0) {
+                                matriu[i - 1][x] = matriu[i][x];
+                                matriu[i][x] = 0;
+                            }
+                        }
                     }
                 }
             }
 
         } else if (wasd == 's') {
 
-            for (int i = matriu.length - 1; i >= 0; i--) {
-                for (int x = matriu.length - 1; x >= 0; x--) {
+            for (int i = 0; i < matriu.length; i++) {
+                for (int x = 0; x < matriu[0].length; x++) {
                     if (matriu[i][x] != 0) {
                         if (!chekOutOfBounds(matriu, (i + 1), (x))) {
 
-                            if (matriu[i + 1][x] == matriu[i][x]) taulaTemp[i + 1][x] = matriu[i][x] * 2;
-                            else if (taulaTemp[i + 1][x] == 0) taulaTemp[i + 1][x] = matriu[i][x];
-                            else taulaTemp[i][x] = matriu[i][x];
-
-                        } else taulaTemp[i][x] = matriu[i][x];
+                            if (matriu[i + 1][x] == matriu[i][x]) {
+                                matriu[i + 1][x] = matriu[i][x] * 2;
+                                matriu[i][x] = 0;
+                            } else if (matriu[i + 1][x] == 0) {
+                                matriu[i + 1][x] = matriu[i][x];
+                                matriu[i][x] = 0;
+                            }
+                        }
                     }
                 }
             }
@@ -145,11 +151,14 @@ public class BoardGame2048Main {
                     if (matriu[i][x] != 0) {
                         if (!chekOutOfBounds(matriu, (i), (x - 1))) {
 
-                            if (matriu[i][x - 1] == matriu[i][x]) taulaTemp[i][x - 1] = matriu[i][x] * 2;
-                            else if (taulaTemp[i][x - 1] == 0) taulaTemp[i][x - 1] = matriu[i][x];
-                            else taulaTemp[i][x] = matriu[i][x];
-
-                        } else taulaTemp[i][x] = matriu[i][x];
+                            if (matriu[i][x - 1] == matriu[i][x]) {
+                                matriu[i][x - 1] = matriu[i][x] * 2;
+                                matriu[i][x] = 0;
+                            } else if (matriu[i][x - 1] == 0) {
+                                matriu[i][x - 1] = matriu[i][x];
+                                matriu[i][x] = 0;
+                            }
+                        }
                     }
                 }
             }
@@ -161,24 +170,25 @@ public class BoardGame2048Main {
                     if (matriu[i][x] != 0) {
                         if (!chekOutOfBounds(matriu, (i), (x + 1))) {
 
-                            if (matriu[i][x + 1] == matriu[i][x]) taulaTemp[i][x + 1] = matriu[i][x] * 2;
-                            else if (taulaTemp[i][x + 1] == 0) taulaTemp[i][x + 1] = matriu[i][x];
-                            else taulaTemp[i][x] = matriu[i][x];
-
-                        } else taulaTemp[i][x] = matriu[i][x];
+                            if (matriu[i][x + 1] == matriu[i][x]) {
+                                matriu[i][x + 1] = matriu[i][x] * 2;
+                                matriu[i][x] = 0;
+                            } else if (matriu[i][x + 1] == 0) {
+                                matriu[i][x + 1] = matriu[i][x];
+                                matriu[i][x] = 0;
+                            }
+                        }
                     }
                 }
             }
-
         }
         if (continuar) {
             do {
                 rnd1 = rnd.nextInt(TAULER);
                 rnd2 = rnd.nextInt(TAULER);
-            } while (taulaTemp[rnd1][rnd2] != 0);
-            taulaTemp[rnd1][rnd2] = SPAWN;
+            } while (matriu[rnd1][rnd2] != 0);
+            matriu[rnd1][rnd2] = SPAWN;
         }
-        BoardGame2048Main.actualitzador(matriu, taulaTemp);
     }
 
     static boolean continueishon(int[][] matriu, char wasd) {
@@ -204,13 +214,6 @@ public class BoardGame2048Main {
         return row < 0 || row > matriu.length - 1 || col < 0 || col > matriu[row].length - 1;
     }
 
-    static void actualitzador(int[][] taula, int[][] taulaTemp) {
-        for (int i = 0; i < taulaTemp.length; i++) {
-            for (int x = 0; x < taulaTemp[i].length; x++) {
-                taula[i][x] = taulaTemp[i][x];
-            }
-        }
-    }
 }
 
 
