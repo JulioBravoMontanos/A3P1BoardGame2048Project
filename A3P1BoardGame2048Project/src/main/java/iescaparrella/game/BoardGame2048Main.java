@@ -25,7 +25,7 @@ public class BoardGame2048Main {
 
         do {
             System.out.println("\nSel·lecciona una opció del menú:");
-            System.out.println("~~~~ MENÚ ~~~~\n0. Sortir\n1. Jugar en mode fàcil\n2. Jugar en mode difíıcil\n");
+            System.out.println("~~~~ MENÚ ~~~~\n0. Sortir\n1. Jugar en mode fàcil\n2. Jugar en mode difícil\n");
             menu = keyboard.nextInt();
 
             switch (menu) {
@@ -43,7 +43,7 @@ public class BoardGame2048Main {
                         System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
                         moviment = keyboard.next().toLowerCase().charAt(0);
                         continuar = BoardGame2048Main.fiPartida(taula, moviment);
-                        BoardGame2048Main.gameMovementEZ(taula, moviment, continuar);
+                        BoardGame2048Main.gameMovementEZ(taula, moviment);
                         if (continuar) BoardGame2048Main.setSpawn(taula);
 
 
@@ -61,7 +61,7 @@ public class BoardGame2048Main {
                         System.out.println("\nW: amunt, A: esquerra, S: avall, D: dreta, Q: sortir");
                         moviment = keyboard.next().toLowerCase().charAt(0);
                         continuar = BoardGame2048Main.fiPartida(taula, moviment);
-                        BoardGame2048Main.gameMovementDificil(taula, moviment, continuar);
+                        BoardGame2048Main.gameMovementDificil(taula, moviment);
                         if (continuar) BoardGame2048Main.setSpawn(taula);
 
                     } while (continuar);
@@ -108,7 +108,7 @@ public class BoardGame2048Main {
         matriu[rnd1][rnd2] = SPAWN;
     }
 
-    static void gameMovementEZ(int[][] matriu, char wasd, boolean continuar) {
+    static void gameMovementEZ(int[][] matriu, char wasd) {
 
         if (wasd == 'w') {
             for (int i = 0; i < matriu.length; i++) {
@@ -186,7 +186,7 @@ public class BoardGame2048Main {
         }
     }
 
-    static void gameMovementDificil(int[][] matriu, char wasd, boolean continuar) {
+    static void gameMovementDificil(int[][] matriu, char wasd) {
 
         if (wasd == 'w') {
 
@@ -299,8 +299,3 @@ public class BoardGame2048Main {
             matriu[rnd1][rnd2] = SPAWN;
     }
 }
-
-
-
-
-
