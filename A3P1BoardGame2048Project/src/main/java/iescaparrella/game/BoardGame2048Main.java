@@ -101,13 +101,12 @@ public class BoardGame2048Main {
     }
 
     static void gameMovement(int[][] matriu, char wasd, boolean continuar) {
-        int[][] taulaTemp = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
         int rnd1, rnd2;
         Random rnd = new Random();
 
         if (wasd == 'w') {
 
-            for (int i = matriu.length-1; i >=0; i--) {
+            for (int i = 0; i < matriu.length; i++) {
                 for (int x = 0; x < matriu[i].length; x++) {
                     if (matriu[i][x] != 0) {
                         if (!chekOutOfBounds(matriu, (i - 1), (x))) {
@@ -126,7 +125,7 @@ public class BoardGame2048Main {
 
         } else if (wasd == 's') {
 
-            for (int i = 0; i < matriu.length; i++) {
+            for (int i = matriu.length - 1; i >= 0; i--) {
                 for (int x = 0; x < matriu[0].length; x++) {
                     if (matriu[i][x] != 0) {
                         if (!chekOutOfBounds(matriu, (i + 1), (x))) {
@@ -134,6 +133,7 @@ public class BoardGame2048Main {
                             if (matriu[i + 1][x] == matriu[i][x]) {
                                 matriu[i + 1][x] = matriu[i][x] * 2;
                                 matriu[i][x] = 0;
+
                             } else if (matriu[i + 1][x] == 0) {
                                 matriu[i + 1][x] = matriu[i][x];
                                 matriu[i][x] = 0;
@@ -143,11 +143,10 @@ public class BoardGame2048Main {
                 }
             }
 
-        } else if (wasd == 'a') //fallitos lleus
-        {
+        } else if (wasd == 'a') {
 
             for (int i = matriu.length - 1; i >= 0; i--) {
-                for (int x = 0; x < matriu.length; x++) {
+                for (int x = matriu.length -1; x >= 0; x--) {
                     if (matriu[i][x] != 0) {
                         if (!chekOutOfBounds(matriu, (i), (x - 1))) {
 
@@ -166,7 +165,7 @@ public class BoardGame2048Main {
         } else if (wasd == 'd') {
 
             for (int i = 0; i < matriu.length; i++) {
-                for (int x = matriu.length - 1; x >= 0; x--) {
+                for (int x = 0; x < matriu[0].length; x++) {
                     if (matriu[i][x] != 0) {
                         if (!chekOutOfBounds(matriu, (i), (x + 1))) {
 
