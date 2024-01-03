@@ -260,23 +260,22 @@ public class BoardGame2048Main {
         }
     }*/
 
-    static void gameMovementDificil (int[][] matriu, char wasd) {
-        int movimentsDisponibles;
+    static void gameMovementDificil(int[][] matriu, char wasd) {
+        int mov;
 
         if (wasd == 'w') {
             for (int i = 0; i < matriu.length; i++) {
                 for (int x = 0; x < matriu[i].length; x++) {
                     if (matriu[i][x] != 0) {
-                        if (checkOutOfBounds(matriu, (i - 1), (x))) {
+                        mov = BoardGame2048Main.comptadorMoviments(matriu, i, x, -1, 0);
 
-                            if (matriu[i - 1][x] == matriu[i][x]) {
-                                matriu[i - 1][x] = matriu[i][x] * 2;
-                                matriu[i][x] = 0;
+                        if (matriu[i - mov][x] == matriu[i][x]) {
+                            matriu[i - mov][x] = matriu[i][x] * 2;
+                            matriu[i][x] = 0;
 
-                            } else if (matriu[i - 1][x] == 0) {
-                                matriu[i - 1][x] = matriu[i][x];
-                                matriu[i][x] = 0;
-                            }
+                        } else if (matriu[i - mov][x] == 0) {
+                            matriu[i - mov][x] = matriu[i][x];
+                            matriu[i][x] = 0;
                         }
                     }
                 }
@@ -375,10 +374,15 @@ public class BoardGame2048Main {
         matriu[rnd1][rnd2] = SPAWN;
     }
 
-    static void comptadorMoviments (int [][] matriu, int movimentsDisponibles, int direccioRow, int direccioCol){
-        int row = 0, col;
-        movimentsDisponibles = 0;
+    static int comptadorMoviments(int[][] matriu, int row, int col, int movRow, int movCol) {
+        int movimentsDisponibles = 0;
+        int comptadorRow = movRow, comptadorCol = movCol;
 
-
+        while (checkOutOfBounds(matriu, (row + comptadorRow), (col + comptadorCol)) || matriu[row + comptadorRow][col + comptadorCol] == 0) {
+            movimentsDisponibles++;
+            comptadorRow += movRow;
+            comptadorCol += movCol;
+        }
+        return movimentsDisponibles;
     }
 }
