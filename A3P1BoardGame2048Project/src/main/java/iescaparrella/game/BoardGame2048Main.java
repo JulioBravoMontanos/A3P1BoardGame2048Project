@@ -267,15 +267,18 @@ public class BoardGame2048Main {
             for (int i = 0; i < matriu.length; i++) {
                 for (int x = 0; x < matriu[i].length; x++) {
                     if (matriu[i][x] != 0) {
-                        mov = BoardGame2048Main.comptadorMoviments(matriu, i, x, -1, 0);
+                        if (i > 0) {
 
-                        if (matriu[i - mov][x] == matriu[i][x]) {
-                            matriu[i - mov][x] = matriu[i][x] * 2;
-                            matriu[i][x] = 0;
+                            mov = BoardGame2048Main.comptadorMoviments(matriu, i, x, -1, 0);
 
-                        } else if (matriu[i - mov][x] == 0) {
-                            matriu[i - mov][x] = matriu[i][x];
-                            matriu[i][x] = 0;
+                            if (matriu[i - mov][x] == matriu[i][x]) {
+                                matriu[i - mov][x] = matriu[i][x] * 2;
+                                matriu[i][x] = 0;
+
+                            } else if (matriu[i - mov][x] == 0) {
+                                matriu[i - mov][x] = matriu[i][x];
+                                matriu[i][x] = 0;
+                            }
                         }
                     }
                 }
@@ -378,7 +381,12 @@ public class BoardGame2048Main {
         int movimentsDisponibles = 0;
         int comptadorRow = movRow, comptadorCol = movCol;
 
-        while (checkOutOfBounds(matriu, (row + comptadorRow), (col + comptadorCol)) || matriu[row + comptadorRow][col + comptadorCol] == 0) {
+        /*if (row == 0 && movRow == -1) return 0;
+        if (col == 0 && movCol == -1) return 0;
+        if (row == 3 && movRow == 1) return 0;
+        if (col == 3 && movCol == 1) return 0;*/
+
+        while (checkOutOfBounds(matriu, (row + comptadorRow), (col + comptadorCol)) && matriu[row + comptadorRow][col + comptadorCol] == 0) {
             movimentsDisponibles++;
             comptadorRow += movRow;
             comptadorCol += movCol;
