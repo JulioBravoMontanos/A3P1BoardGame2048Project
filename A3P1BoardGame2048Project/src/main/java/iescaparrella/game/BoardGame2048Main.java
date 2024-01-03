@@ -89,8 +89,6 @@ public class BoardGame2048Main {
     }
 
     static void inicialitzarTaula(int[][] matriu) {
-        Random rnd = new Random();
-        int rnd1, rnd2;
 
         for (int i = 0; i < matriu.length; i++) {
             for (int x = 0; x < matriu[0].length; x++) {
@@ -98,14 +96,9 @@ public class BoardGame2048Main {
             }
         }
 
-        matriu[rnd.nextInt(TAULER)][rnd.nextInt(TAULER)] = SPAWN;
-
-        //Control per evitar que el segon SPAWN aparegui a la mateixa cel·la que abans
-        do {
-            rnd1 = rnd.nextInt(TAULER);
-            rnd2 = rnd.nextInt(TAULER);
-        } while (matriu[rnd1][rnd2] != 0);
-        matriu[rnd1][rnd2] = SPAWN;
+        for (int i = 0; i < SPAWN; i++) {
+            BoardGame2048Main.setSpawn(matriu);
+        }
     }
 
     static void gameMovementEZ(int[][] matriu, char wasd) {
@@ -127,8 +120,8 @@ public class BoardGame2048Main {
                         }
                     }
                 }
-
             }
+
         } else if (wasd == 's') {
             for (int i = matriu.length - 1; i >= 0; i--) {
                 for (int x = 0; x < matriu[0].length; x++) {
@@ -147,6 +140,7 @@ public class BoardGame2048Main {
                     }
                 }
             }
+
         } else if (wasd == 'a') {
             for (int i = matriu.length - 1; i >= 0; i--) {
                 for (int x = 0; x < matriu.length; x++) {
@@ -165,6 +159,7 @@ public class BoardGame2048Main {
                     }
                 }
             }
+
         } else if (wasd == 'd') {
             for (int i = 0; i < matriu.length; i++) {
                 for (int x = matriu.length - 1; x >= 0; x--) {
@@ -186,10 +181,9 @@ public class BoardGame2048Main {
         }
     }
 
-    static void gameMovementDificil(int[][] matriu, char wasd) {
+    /*static void gameMovementDificil(int[][] matriu, char wasd) {
 
         if (wasd == 'w') {
-
             for (int i = matriu.length - 1; i >= 0; i--) {
                 for (int x = 0; x < matriu[i].length; x++) {
                     if (matriu[i][x] != 0) {
@@ -264,6 +258,87 @@ public class BoardGame2048Main {
                 }
             }
         }
+    }*/
+
+    static void gameMovementDificil (int[][] matriu, char wasd) {
+        int movimentsDisponibles;
+
+        if (wasd == 'w') {
+            for (int i = 0; i < matriu.length; i++) {
+                for (int x = 0; x < matriu[i].length; x++) {
+                    if (matriu[i][x] != 0) {
+                        if (checkOutOfBounds(matriu, (i - 1), (x))) {
+
+                            if (matriu[i - 1][x] == matriu[i][x]) {
+                                matriu[i - 1][x] = matriu[i][x] * 2;
+                                matriu[i][x] = 0;
+
+                            } else if (matriu[i - 1][x] == 0) {
+                                matriu[i - 1][x] = matriu[i][x];
+                                matriu[i][x] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+        } else if (wasd == 's') {
+            for (int i = matriu.length - 1; i >= 0; i--) {
+                for (int x = 0; x < matriu[0].length; x++) {
+                    if (matriu[i][x] != 0) {
+                        if (checkOutOfBounds(matriu, (i + 1), (x))) {
+
+                            if (matriu[i + 1][x] == matriu[i][x]) {
+                                matriu[i + 1][x] = matriu[i][x] * 2;
+                                matriu[i][x] = 0;
+
+                            } else if (matriu[i + 1][x] == 0) {
+                                matriu[i + 1][x] = matriu[i][x];
+                                matriu[i][x] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+        } else if (wasd == 'a') {
+            for (int i = matriu.length - 1; i >= 0; i--) {
+                for (int x = 0; x < matriu.length; x++) {
+                    if (matriu[i][x] != 0) {
+                        if (checkOutOfBounds(matriu, (i), (x - 1))) {
+
+                            if (matriu[i][x - 1] == matriu[i][x]) {
+                                matriu[i][x - 1] = matriu[i][x] * 2;
+                                matriu[i][x] = 0;
+
+                            } else if (matriu[i][x - 1] == 0) {
+                                matriu[i][x - 1] = matriu[i][x];
+                                matriu[i][x] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+        } else if (wasd == 'd') {
+            for (int i = 0; i < matriu.length; i++) {
+                for (int x = matriu.length - 1; x >= 0; x--) {
+                    if (matriu[i][x] != 0) {
+                        if (checkOutOfBounds(matriu, (i), (x + 1))) {
+
+                            if (matriu[i][x + 1] == matriu[i][x]) {
+                                matriu[i][x + 1] = matriu[i][x] * 2;
+                                matriu[i][x] = 0;
+
+                            } else if (matriu[i][x + 1] == 0) {
+                                matriu[i][x + 1] = matriu[i][x];
+                                matriu[i][x] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     static boolean fiPartida(int[][] matriu, char wasd) {
@@ -287,15 +362,23 @@ public class BoardGame2048Main {
     static boolean checkOutOfBounds(int[][] matriu, int row, int col) {
         return row >= 0 && row <= matriu.length - 1 && col >= 0 && col <= matriu[row].length - 1;
     }
-    static void setSpawn (int[][]matriu){
+
+    static void setSpawn(int[][] matriu) {
         int rnd1, rnd2;
         Random rnd = new Random();
 
-            do {
-                rnd1 = rnd.nextInt(TAULER);
-                rnd2 = rnd.nextInt(TAULER);
+        do {
+            rnd1 = rnd.nextInt(TAULER);
+            rnd2 = rnd.nextInt(TAULER);
 
-            } while (matriu[rnd1][rnd2] != 0);
-            matriu[rnd1][rnd2] = SPAWN;
+        } while (matriu[rnd1][rnd2] != 0);
+        matriu[rnd1][rnd2] = SPAWN;
+    }
+
+    static void comptadorMoviments (int [][] matriu, int movimentsDisponibles, int direccioRow, int direccioCol){
+        int row = 0, col;
+        movimentsDisponibles = 0;
+
+
     }
 }
