@@ -105,74 +105,32 @@ public class BoardGame2048Main {
             for (int i = 0; i < matriu.length; i++) {
                 for (int x = 0; x < matriu[i].length; x++) {
                     if (matriu[i][x] != 0) {
-                        if (checkOutOfBounds(matriu, (i - 1), (x))) {
-
-                            if (matriu[i - 1][x] == matriu[i][x]) {
-                                matriu[i - 1][x] = matriu[i][x] * 2;
-                                matriu[i][x] = 0;
-
-                            } else if (matriu[i - 1][x] == 0) {
-                                matriu[i - 1][x] = matriu[i][x];
-                                matriu[i][x] = 0;
-                            }
-                        }
+                        moviment(matriu, i, x, (i - 1), x);
                     }
                 }
             }
-
         } else if (wasd == 's') {
             for (int i = matriu.length - 1; i >= 0; i--) {
                 for (int x = 0; x < matriu[0].length; x++) {
                     if (matriu[i][x] != 0) {
-                        if (checkOutOfBounds(matriu, (i + 1), (x))) {
+                        moviment(matriu, i, x, (i + 1), x);
 
-                            if (matriu[i + 1][x] == matriu[i][x]) {
-                                matriu[i + 1][x] = matriu[i][x] * 2;
-                                matriu[i][x] = 0;
-
-                            } else if (matriu[i + 1][x] == 0) {
-                                matriu[i + 1][x] = matriu[i][x];
-                                matriu[i][x] = 0;
-                            }
-                        }
                     }
                 }
             }
-
         } else if (wasd == 'a') {
             for (int i = matriu.length - 1; i >= 0; i--) {
                 for (int x = 0; x < matriu.length; x++) {
                     if (matriu[i][x] != 0) {
-                        if (checkOutOfBounds(matriu, (i), (x - 1))) {
-
-                            if (matriu[i][x - 1] == matriu[i][x]) {
-                                matriu[i][x - 1] = matriu[i][x] * 2;
-                                matriu[i][x] = 0;
-
-                            } else if (matriu[i][x - 1] == 0) {
-                                matriu[i][x - 1] = matriu[i][x];
-                                matriu[i][x] = 0;
-                            }
-                        }
+                        moviment(matriu, i, x, i, (x - 1));
                     }
                 }
             }
-
         } else if (wasd == 'd') {
             for (int i = 0; i < matriu.length; i++) {
                 for (int x = matriu.length - 1; x >= 0; x--) {
                     if (matriu[i][x] != 0) {
-                        if (checkOutOfBounds(matriu, (i), (x + 1))) {
-
-                            if (matriu[i][x + 1] == matriu[i][x]) {
-                                matriu[i][x + 1] = matriu[i][x] * 2;
-                                matriu[i][x] = 0;
-
-                            } else if (matriu[i][x + 1] == 0) {
-                                matriu[i][x + 1] = matriu[i][x];
-                                matriu[i][x] = 0;
-                            }
-                        }
+                        moviment(matriu, i, x, i, (x + 1));
                     }
                 }
             }
@@ -180,14 +138,14 @@ public class BoardGame2048Main {
     }
 
     static void gameMovementDificil(int[][] matriu, char wasd) {
-        int mov;
+        int moviments;
 
         if (wasd == 'w') {
             for (int i = 0; i < matriu.length; i++) {
                 for (int x = 0; x < matriu[i].length; x++) {
                     if (matriu[i][x] != 0) {
 
-                        int moviments = 1;
+                        moviments = 1;
                         while (BoardGame2048Main.checkOutOfBounds(matriu, i - moviments, x) && matriu[i - moviments][x] == 0) {
                             matriu[i - moviments][x] = matriu[i - (moviments - 1)][x];
                             matriu[i - (moviments - 1)][x] = 0;
@@ -209,7 +167,7 @@ public class BoardGame2048Main {
                 for (int x = 0; x < matriu[0].length; x++) {
                     if (matriu[i][x] != 0) {
 
-                        int moviments = 1;
+                        moviments = 1;
                         while (BoardGame2048Main.checkOutOfBounds(matriu, i + moviments, x) && matriu[i + moviments][x] == 0) {
                             matriu[i + moviments][x] = matriu[i + (moviments - 1)][x];
                             matriu[i + (moviments - 1)][x] = 0;
@@ -231,7 +189,7 @@ public class BoardGame2048Main {
                 for (int x = 0; x < matriu.length; x++) {
                     if (matriu[i][x] != 0) {
 
-                        int moviments = 1;
+                        moviments = 1;
                         while (BoardGame2048Main.checkOutOfBounds(matriu, i, x - moviments) && matriu[i][x - moviments] == 0) {
                             matriu[i][x - moviments] = matriu[i][x - (moviments - 1)];
                             matriu[i][x - (moviments - 1)] = 0;
@@ -253,7 +211,7 @@ public class BoardGame2048Main {
                 for (int x = matriu.length - 1; x >= 0; x--) {
                     if (matriu[i][x] != 0) {
 
-                        int moviments = 1;
+                        moviments = 1;
                         while (BoardGame2048Main.checkOutOfBounds(matriu, i, x + moviments) && matriu[i][x + moviments] == 0) {
                             matriu[i][x + moviments] = matriu[i][x + (moviments - 1)];
                             matriu[i][x + (moviments - 1)] = 0;
@@ -305,5 +263,20 @@ public class BoardGame2048Main {
         } while (matriu[rnd1][rnd2] != 0);
 
         matriu[rnd1][rnd2] = SPAWN;
+    }
+
+    static void moviment(int[][] matriu, int rowOg, int colOg, int rowMov, int colMov) {
+
+        if (checkOutOfBounds(matriu, (rowMov), (colMov))) {
+
+            if (matriu[rowMov][colMov] == matriu[rowOg][colOg]) {
+                matriu[rowMov][colMov] = matriu[rowOg][colOg] * 2;
+                matriu[rowOg][colOg] = 0;
+
+            } else if (matriu[rowMov][colMov] == 0) {
+                matriu[rowMov][colMov] = matriu[rowOg][colOg];
+                matriu[rowOg][colOg] = 0;
+            }
+        }
     }
 }
