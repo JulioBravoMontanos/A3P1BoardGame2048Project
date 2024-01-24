@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64e13a4e-f240-40dd-b97d-ed92a54dbd56" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/A3P1BoardGame2048Project/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/A3P1BoardGame2048Project/.idea/misc.xml" afterDir="false" />
-    </list>
+    <list default="true" id="64e13a4e-f240-40dd-b97d-ed92a54dbd56" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,7 +31,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "test",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/julio/Desktop/A3P1BoardGame2048Project-test",
+    "last_opened_file_path": "C:/Classe/DAM PRIMER CURSO/DAM M3 Programación/IdeaProjects/A3P1BoardGame2048Project",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
